@@ -1,14 +1,15 @@
 ## Memory Game
 This project is a simple memory game built with HTML, CSS, and JavaScript.
 
-## Overview
+# Overview
 The game consists of a set of tiles each with a color. The tiles are laid out in a grid, face down. The gameplay goes as follows:
 
-A player flips one tile over to reveal its underlying color.
-The player then turns over a second tile, trying to find the corresponding tile with the same color.
-If the colors match, both tiles stay flipped over.
-If the colors do not match, the tiles are flipped back over.
-The game ends when all the tiles have been matched.
+1. A player flips one tile over to reveal its underlying color.
+2. The player then turns over a second tile, trying to find the corresponding tile with the same color.
+3. If the colors match, both tiles stay flipped over.
+4. If the colors do not match, the tiles are flipped back over.
+5. The game ends when all the tiles have been matched.
+6. 
 ## Implementation
 The game is implemented in pure JavaScript, without any external libraries. The game board is a simple grid of tiles, which are HTML div elements. Each tile has a data-color attribute which corresponds to its color. When a tile is clicked, its background color is changed to its data-color.
 
