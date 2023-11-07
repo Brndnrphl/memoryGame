@@ -9,7 +9,6 @@ The game consists of a set of tiles each with a color. The tiles are laid out in
 3. If the colors match, both tiles stay flipped over.
 4. If the colors do not match, the tiles are flipped back over.
 5. The game ends when all the tiles have been matched.
-6. 
 ## Implementation
 The game is implemented in pure JavaScript, without any external libraries. The game board is a simple grid of tiles, which are HTML div elements. Each tile has a data-color attribute which corresponds to its color. When a tile is clicked, its background color is changed to its data-color.
 
