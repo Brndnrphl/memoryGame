@@ -3,14 +3,14 @@ const tilesContainer = document.querySelector(".tiles");
 
 // array of colors used
 const colors = [
-  "#f94144",
-  "#f3722c",
-  "#f8961e",
-  "#f9844a",
-  "#f9c74f",
-  "#90be6d",
-  "#43aa8b",
-  "#4d908e",
+  "#ff0000", // red
+  "#00ff00", // green
+  "#0000ff", // blue
+  "#ffff00", // yellow
+  "#ff00ff", // magenta
+  "#00ffff", // cyan
+  "#ff8000", // orange
+  "#8000ff", // purple
 ];
 
 // duplicate the array twice to be used by the tiles
@@ -23,7 +23,9 @@ const tileCount = colorPicklist.length;
 let revealedCount = 0;
 // store the first clicked tile
 let firstClicked = null;
-let tilesLocked = false;
+let secondClicked = null;
+// keep track if waiting for timeout
+let isWaiting = false;
 
 function buildTile(color) {
   const tile = document.createElement("div");
@@ -31,49 +33,43 @@ function buildTile(color) {
   tile.setAttribute("data-color", color);
   tile.setAttribute("data-revealed", "false");
 
-  tile.addEventListener("click", function () {
-    // if tiles are locked, don't do anything
-    if (tilesLocked) {
+  tile.addEventListener("click", () => {
+    if (firstClicked === tile || isWaiting) {
       return;
     }
 
-    // reveal the color on click and set it to active
     tile.style.backgroundColor = color;
 
-    // if this is the first tile clicked, store it and return
     if (!firstClicked) {
       firstClicked = tile;
-      return;
+    } else if (!secondClicked) {
+      secondClicked = tile;
     }
 
-    // if this is the second tile clicked, lock the tiles and check if they match
-    tilesLocked = true;
-    setTimeout(function () {
-      // if the tiles match, increment the revealed count and reset the first clicked tile
-      if (
-        firstClicked.getAttribute("data-color") ===
-        tile.getAttribute("data-color")
-      ) {
-        revealedCount += 2;
-        firstClicked.setAttribute("data-revealed", "true");
-        tile.setAttribute("data-revealed", "true");
-        firstClicked = null;
-        tilesLocked = false;
-        // if all tiles have been revealed, alert the user and reset the game
-        if (revealedCount === tileCount) {
-          alert("You won!");
-          location.reload();
+    setTimeout(() => {
+      if (firstClicked && secondClicked) {
+        const firstColor = firstClicked.getAttribute("data-color");
+        const secondColor = secondClicked.getAttribute("data-color");
+
+        if (firstColor === secondColor) {
+          firstClicked.setAttribute("data-revealed", "true");
+          secondClicked.setAttribute("data-revealed", "true");
+          revealedCount += 2;
+        } else {
+          firstClicked.style.backgroundColor = "";
+          secondClicked.style.backgroundColor = "";
         }
-      } else {
-        // if the tiles don't match, hide the colors and reset the first clicked tile
-        firstClicked.style.backgroundColor = "";
-        tile.style.backgroundColor = "";
+
         firstClicked = null;
-        tilesLocked = false;
+        secondClicked = null;
+        isWaiting = false;
       }
     }, 1000);
+    if (revealedCount === tileCount) {
+      alert("You won!");
+    }
+    console.log(revealedCount);
   });
-
   return tile;
 }
 
