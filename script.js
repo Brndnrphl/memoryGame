@@ -21,6 +21,9 @@ const tileCount = colorPicklist.length;
 
 // number of tiles that have been revealed
 let revealedCount = 0;
+// store the first clicked tile
+let firstClicked = null;
+let tilesLocked = false;
 
 function buildTile(color) {
   const tile = document.createElement("div");
@@ -29,11 +32,46 @@ function buildTile(color) {
   tile.setAttribute("data-revealed", "false");
 
   tile.addEventListener("click", function () {
+    // if tiles are locked, don't do anything
+    if (tilesLocked) {
+      return;
+    }
+
     // reveal the color on click and set it to active
     tile.style.backgroundColor = color;
-    tile.setAttribute("data-revealed", "true");
 
-    // wait for the second tile click
+    // if this is the first tile clicked, store it and return
+    if (!firstClicked) {
+      firstClicked = tile;
+      return;
+    }
+
+    // if this is the second tile clicked, lock the tiles and check if they match
+    tilesLocked = true;
+    setTimeout(function () {
+      // if the tiles match, increment the revealed count and reset the first clicked tile
+      if (
+        firstClicked.getAttribute("data-color") ===
+        tile.getAttribute("data-color")
+      ) {
+        revealedCount += 2;
+        firstClicked.setAttribute("data-revealed", "true");
+        tile.setAttribute("data-revealed", "true");
+        firstClicked = null;
+        tilesLocked = false;
+        // if all tiles have been revealed, alert the user and reset the game
+        if (revealedCount === tileCount) {
+          alert("You won!");
+          location.reload();
+        }
+      } else {
+        // if the tiles don't match, hide the colors and reset the first clicked tile
+        firstClicked.style.backgroundColor = "";
+        tile.style.backgroundColor = "";
+        firstClicked = null;
+        tilesLocked = false;
+      }
+    }, 1000);
   });
 
   return tile;
