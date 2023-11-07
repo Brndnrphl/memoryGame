@@ -18,6 +18,6 @@ The game logic is handled in JavaScript. When a tile is clicked, the game checks
 To run the game, simply open the index.html file in a web browser. The game will start immediately.
 
 # Future Improvements
-Add a score or timer to increase the challenge.
-Add animations for flipping the tiles.
-Add the ability to change the difficulty by increasing or decreasing the number of tiles.
+1. Add a score or timer to increase the challenge.
+2. Add animations for flipping the tiles.
+3. Add the ability to change the difficulty by increasing or decreasing the number of tiles.
