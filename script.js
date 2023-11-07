@@ -46,8 +46,9 @@ function buildTile(color) {
       secondClicked = tile;
     }
 
-    setTimeout(() => {
-      if (firstClicked && secondClicked) {
+    if (firstClicked && secondClicked) {
+      isWaiting = true;
+      setTimeout(() => {
         const firstColor = firstClicked.getAttribute("data-color");
         const secondColor = secondClicked.getAttribute("data-color");
 
@@ -63,12 +64,12 @@ function buildTile(color) {
         firstClicked = null;
         secondClicked = null;
         isWaiting = false;
-      }
-    }, 1000);
-    if (revealedCount === tileCount) {
-      alert("You won!");
+
+        if (revealedCount === tileCount) {
+          document.querySelector(".win").style.display = "block";
+        }
+      }, 1000);
     }
-    console.log(revealedCount);
   });
   return tile;
 }
